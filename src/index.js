@@ -1,4 +1,6 @@
+const { prisma } = require('./generated/prisma-client')
 const { GraphQLServer } = require('graphql-yoga')  
+
 // 1
 let links = [{
     id: 'link-0',
@@ -12,7 +14,11 @@ let idCount = links.length
 const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
-    feed: () => links,
+    //( without prisma, using memory)
+    // feed: () => links, 
+    feed: (root, args, context, info) => {
+      return context.prisma.links()
+    },
     link: (_,{id}) => {
       const link = links.find( link => link.id === id)
       return link;
@@ -31,15 +37,22 @@ const resolvers = {
         links.splice(removeIndex, 1);
         return removedLink;
       },
-      post: (parent,args) => {
-          const link = {
-              id: `link-${idCount++}`,
-              description: args.description,
-              url: args.url,
-          }
-          links.push(link)
-          return link
-      }  
+      //( without prisma, using memory)
+      // post: (parent,args) => {
+      //     const link = {
+      //         id: `link-${idCount++}`,
+      //         description: args.description,
+      //         url: args.url,
+      //     }
+      //     links.push(link)
+      //     return link
+      // },
+      post: (root, args, context) => {
+        return context.prisma.createLink({
+          url: args.url,
+          description: args.description,
+        })
+      },
   }
 }
 
@@ -47,5 +60,6 @@ const resolvers = {
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
+  context: { prisma },
 })
 server.start(() => console.log(`Server is running on http://localhost:4000`))
