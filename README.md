@@ -50,6 +50,36 @@
     url
   }
 }`
+### signup
+`mutation {
+  signup(
+    name: "Alice"
+    email: "alice@prisma.io"
+    password: "graphql"
+  ) {
+    token
+    user {
+      id
+    }
+  }
+}`
+### login
+`mutation {
+  login(
+    email: "alice@prisma.io"
+    password: "graphql"
+  ) {
+    token
+    user {
+      email
+      links {
+        url
+        description
+      }
+    }
+  }
+}
+`
 ### running the app
 `>>node src/index.js`
 ### playgroud
@@ -57,5 +87,9 @@
 ### install prisma, prisma client
 `>>sudo npm install -g prisma`\
 `>>npm install prisma-client-lib`
-### prisma generate
+### prisma generate client
 `prisma generate`
+### prisma deploy ( deploys the data model changes and makes endpoints live ( both http & ws ))
+`prisma deploy` 
+### install bryptjs and jsonwebtoken
+`npm install bcryptjs`
