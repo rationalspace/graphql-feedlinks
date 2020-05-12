@@ -35,6 +35,25 @@ async function login(parent, args, context, info) {
       user,
     }
 }
+async function vote(parent, args, context, info) {
+    // 1 check if a valid user id exists in the incoming JWT 
+    const userId = getUserId(context)
+  
+    // 2 if the user exists, check if has already voted on the given link
+    const voteExists = await context.prisma.$exists.vote({
+      user: { id: userId },
+      link: { id: args.linkId },
+    })
+    if (voteExists) {
+      throw new Error(`Already voted for link: ${args.linkId}`)
+    }
+  
+    // 3 If user is valid, and he has not voted - add a Vote
+    return context.prisma.createVote({
+      user: { connect: { id: userId } },
+      link: { connect: { id: args.linkId } },
+    })
+  }
 function post(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.createLink({
@@ -48,4 +67,5 @@ module.exports = {
     signup,
     login,
     post,
+    vote,
 }

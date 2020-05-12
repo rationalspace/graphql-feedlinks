@@ -92,4 +92,4 @@
 ### prisma deploy ( deploys the data model changes and makes endpoints live ( both http & ws ))
 `prisma deploy` 
 ### install bryptjs and jsonwebtoken
-`npm install bcryptjs`
+`npm install bcryptjs jsonwebtoken`

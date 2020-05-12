@@ -13,3 +13,8 @@ type User {
   password: String!
   links: [Link!]!
 }
+type Vote{
+    id: ID! @id
+    user : User!
+    link : Link!
+}
