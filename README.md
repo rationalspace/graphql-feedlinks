@@ -109,6 +109,38 @@
   }
 }
 `
+### filtering
+`query {
+  feed(filter:"org") {
+    id
+  	description
+    url
+    postedBy {
+      id
+      name
+    }
+  }
+}`
+### pagination
+`query {
+  feed(
+    first: 1
+    skip: 1
+  ) {
+    id
+    description
+    url
+  }
+}`
+### sorting
+`query {
+  feed(orderBy: createdAt_ASC) {
+    id
+    description
+    url
+  }
+}
+`
 ### running the app
 `>>node src/index.js`
 ### playgroud
