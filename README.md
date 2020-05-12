@@ -80,6 +80,35 @@
   }
 }
 `
+### subscription
+`subscription {
+  newVote {
+    id
+    link {
+      url
+      description
+    }
+    user {
+      name
+      email
+    }
+  }
+}
+`
+### vote
+`mutation {
+  vote(linkId: "__LINKID__") {
+    link {
+      url
+      description
+    }
+    user {
+      name
+      email
+    }
+  }
+}
+`
 ### running the app
 `>>node src/index.js`
 ### playgroud
