@@ -40,7 +40,7 @@
         description
     }
 }`
-### //delete a link
+### delete a link
 `mutation {
   deleteLink(
     id:"link-2"

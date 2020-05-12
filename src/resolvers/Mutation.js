@@ -54,6 +54,9 @@ async function vote(parent, args, context, info) {
       link: { connect: { id: args.linkId } },
     })
   }
+  function votes(parent, args, context) {
+    return context.prisma.link({ id: parent.id }).votes()
+  }
 function post(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.createLink({
